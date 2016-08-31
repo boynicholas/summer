@@ -27,8 +27,8 @@ import org.eclipse.jetty.server.Server;
  * @date: 2016/8/30 9:23
  */
 public class StartServer {
-    public static final int PORT = 8080;
-    public static final String CONTEXT = "/";
+    private static final int PORT = 8080;
+    private static final String CONTEXT = "/";
 
     public static void main(String[] args) {
 
@@ -42,8 +42,11 @@ public class StartServer {
 
             System.out.println("[INFO] Server running at http://localhost:" + PORT + CONTEXT);
             System.out.println("[HINT] Hit Enter to reload the application quickly");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            /*e.printStackTrace();*/
+            System.err.println("----------------------------------------------------------");
+            System.err.println("Server启动失败");
+            System.err.println("----------------------------------------------------------");
             System.exit(-1);
         }
 

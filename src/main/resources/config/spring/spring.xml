@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2016 Cnlyml
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+	    http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+	    http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/data/jpa
+	    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd" default-lazy-init="true">
+
+    <description>Spring公共配置</description>
+
+    <!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
+    <context:component-scan base-package="me.lyml.summer">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <!-- Jpa Entity Manager 配置 -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <property name="packagesToScan" value="me.lyml.summer"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="databasePlatform">
+            <bean factory-method="getDialect" class="me.lyml.summer.base.modules.persistence.Hibernates">
+                <constructor-arg ref="dataSource"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Spring Data Jpa配置, 扫描base-package下所有继承于Repository<T,ID>的接口 -->
+    <jpa:repositories base-package="me.lyml.summer" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"/>
+
+    <!-- MyBatis配置 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+        <property name="typeAliasesPackage" value="me.lyml.summer.**.entity" />
+        <!-- 显式指定Mapper文件位置 -->
+        <property name="mapperLocations" value="classpath:/config/mybatis/sql-mapper/**/*Mapper.xml" />
+    </bean>
+
+    <!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="me.lyml.summer" />
+        <property name="annotationClass" value="me.lyml.summer.base.repository.mybatis.MybatisRepository"/>
+    </bean>
+
+    <!-- 事务管理器配置, Jpa单数据源事务 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <!-- 配置事务支持的方法 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!-- the transactional semantics... -->
+        <tx:attributes>
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="create*" propagation="REQUIRED" />
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="submit*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="handle*" propagation="REQUIRED" />
+            <tx:method name="register*" propagation="REQUIRED" />
+            <tx:method name="*Process*" propagation="REQUIRED" />
+            <tx:method name="modify*" propagation="REQUIRED" />
+            <tx:method name="assign*" propagation="REQUIRED" />
+            <tx:method name="query*" read-only="true" propagation="SUPPORTS" />
+            <tx:method name="get*" read-only="true" propagation="SUPPORTS" />
+            <tx:method name="find*" read-only="true" propagation="SUPPORTS" />
+            <tx:method name="select*" read-only="true" propagation="SUPPORTS" />
+            <tx:method name="count*" read-only="true" propagation="SUPPORTS" />
+            <tx:method name="*" read-only="true" propagation="SUPPORTS" />
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 通过切面在service层实现事务提交 -->
+    <aop:config>
+        <aop:pointcut id="executeService" expression="(execution(* me.lyml.summer.*.service..*.*(..)))" />
+        <aop:advisor pointcut-ref="executeService" advice-ref="txAdvice" />
+    </aop:config>
+
+    <!-- 定义aspectj -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!-- hibernate validator -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+    <!-- production环境 -->
+    <beans profile="production">
+        <!-- 使用Druid数据源 -->
+        <context:property-placeholder ignore-resource-not-found="true"
+                                      location="classpath*:/config/db/db.properties" />
+        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+            <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
+            <property name="driverClassName" value="${jdbc_driverClassName}" />
+
+            <!-- 基本属性 url、user、password -->
+            <property name="url" value="${jdbc_url}" />
+            <property name="username" value="${jdbc_user}" />
+            <property name="password" value="${jdbc_password}" />
+
+            <!-- 启用数据库加密 -->
+            <!-- <property name="filters" value="config" /> <property name="connectionProperties" value="config.decrypt=true" /> -->
+            <!-- 配置初始化大小、最小、最大 -->
+            <property name="initialSize" value="${pool_initialSize}" />
+            <property name="minIdle" value="${pool_minIdle}" />
+            <property name="maxActive" value="${pool_maxActive}" />
+
+            <!-- 配置获取连接等待超时的时间 -->
+            <property name="maxWait" value="${pool_maxWait}" />
+
+            <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+            <property name="timeBetweenEvictionRunsMillis" value="${pool_timeBetweenEvictionRunsMillis}" />
+
+            <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+            <property name="minEvictableIdleTimeMillis" value="${pool_minEvictableIdleTimeMillis}" />
+
+            <property name="removeAbandoned" value="${removeAbandoned}" />
+            <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" />
+            <property name="logAbandoned" value="${logAbandoned}" />
+
+            <property name="validationQuery" value="${pool_validationQuery}" />
+            <property name="testWhileIdle" value="${pool_testWhileIdle}" />
+            <property name="testOnBorrow" value="${pool_testOnBorrow}" />
+            <property name="testOnReturn" value="${pool_testOnReturn}" />
+
+            <property name="poolPreparedStatements" value="${poolPreparedStatements}" />
+            <property name="maxPoolPreparedStatementPerConnectionSize" value="${maxPoolPreparedStatementPerConnectionSize}" />
+            <!-- 配置监控统计拦截的filters -->
+            <property name="filters" value="config,stat,log4j" />
+        </bean>
+    </beans>
+
+    <!-- local development环境 -->
+    <beans profile="development">
+        <context:property-placeholder ignore-resource-not-found="true"
+                                      location="classpath*:/config/db/db.properties,
+          			  classpath*:/config/db/db.development.properties" />
+
+        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+            <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
+            <property name="driverClassName" value="${jdbc_driverClassName}" />
+
+            <!-- 基本属性 url、user、password -->
+            <property name="url" value="${jdbc_url}" />
+            <property name="username" value="${jdbc_user}" />
+            <property name="password" value="${jdbc_password}" />
+
+            <!-- 启用数据库加密 -->
+            <!-- <property name="filters" value="config" /> <property name="connectionProperties" value="config.decrypt=true" /> -->
+            <!-- 配置初始化大小、最小、最大 -->
+            <property name="initialSize" value="${pool_initialSize}" />
+            <property name="minIdle" value="${pool_minIdle}" />
+            <property name="maxActive" value="${pool_maxActive}" />
+
+            <!-- 配置获取连接等待超时的时间 -->
+            <property name="maxWait" value="${pool_maxWait}" />
+
+            <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+            <property name="timeBetweenEvictionRunsMillis" value="${pool_timeBetweenEvictionRunsMillis}" />
+
+            <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+            <property name="minEvictableIdleTimeMillis" value="${pool_minEvictableIdleTimeMillis}" />
+
+            <property name="removeAbandoned" value="${removeAbandoned}" />
+            <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" />
+            <property name="logAbandoned" value="${logAbandoned}" />
+
+            <property name="validationQuery" value="${pool_validationQuery}" />
+            <property name="testWhileIdle" value="${pool_testWhileIdle}" />
+            <property name="testOnBorrow" value="${pool_testOnBorrow}" />
+            <property name="testOnReturn" value="${pool_testOnReturn}" />
+
+            <property name="poolPreparedStatements" value="${poolPreparedStatements}" />
+            <property name="maxPoolPreparedStatementPerConnectionSize" value="${maxPoolPreparedStatementPerConnectionSize}" />
+            <!-- 配置监控统计拦截的filters -->
+            <property name="filters" value="config,stat,log4j" />
+        </bean>
+    </beans>
+
+</beans>

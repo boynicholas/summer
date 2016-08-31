@@ -76,7 +76,7 @@ public class Hibernates {
             if (connection != null) {
                 try {
                     connection.close();
-                } catch (SQLException e) {
+                } catch (SQLException ignored) {
                 }
             }
         }

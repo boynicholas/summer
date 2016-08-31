@@ -1,4 +1,9 @@
-<%--
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fns" uri="/WEB-INF/tlds/fns.tld" %>
+<%@ taglib prefix="sys" tagdir="/WEB-INF/tags/sys" %><%--
   ~ Copyright 2016 Cnlyml
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +19,5 @@
   ~ limitations under the License.
   --%>
 
-<html>
-<body>
-<h2>Hello World!</h2>
-</body>
-</html>
+
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>

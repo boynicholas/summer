@@ -227,6 +227,12 @@
           <scope>test</scope>
       </dependency>
 
+      <!-- Groovy -->
+      <dependency>
+          <groupId>org.codehaus.groovy</groupId>
+          <artifactId>groovy-all</artifactId>
+          <version>${groovy.version}</version>
+      </dependency>
 
       <!-- Apache POI -->
       <dependency>
@@ -276,14 +282,34 @@
                   <target>1.8</target>
               </configuration>
           </plugin>
+
+          <!-- Groovy 编译插件 -->
           <plugin>
-              <groupId>org.codehaus.gmaven</groupId>
-              <artifactId>groovy-maven-plugin</artifactId>
+              <groupId>org.codehaus.gmavenplus</groupId>
+              <artifactId>gmavenplus-plugin</artifactId>
+              <version>1.5</version>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>addSources</goal>
+                          <goal>addTestSources</goal>
+                          <goal>generateStubs</goal>
+                          <goal>compile</goal>
+                          <goal>testGenerateStubs</goal>
+                          <goal>testCompile</goal>
+                          <goal>removeStubs</goal>
+                          <goal>removeTestStubs</goal>
+                      </goals>
+                  </execution>
+              </executions>
+              <configuration>
+              </configuration>
               <dependencies>
                   <dependency>
                       <groupId>org.codehaus.groovy</groupId>
                       <artifactId>groovy-all</artifactId>
                       <version>${groovy.version}</version>
+                      <scope>runtime</scope>
                   </dependency>
               </dependencies>
           </plugin>

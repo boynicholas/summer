@@ -227,12 +227,6 @@
           <scope>test</scope>
       </dependency>
 
-      <!-- Groovy -->
-      <dependency>
-          <groupId>org.codehaus.groovy</groupId>
-          <artifactId>groovy-all</artifactId>
-          <version>${groovy.version}</version>
-      </dependency>
 
       <!-- Apache POI -->
       <dependency>
@@ -281,6 +275,17 @@
                   <source>1.8</source>
                   <target>1.8</target>
               </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.codehaus.gmaven</groupId>
+              <artifactId>groovy-maven-plugin</artifactId>
+              <dependencies>
+                  <dependency>
+                      <groupId>org.codehaus.groovy</groupId>
+                      <artifactId>groovy-all</artifactId>
+                      <version>${groovy.version}</version>
+                  </dependency>
+              </dependencies>
           </plugin>
       </plugins>
   </build>

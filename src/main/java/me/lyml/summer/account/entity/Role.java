@@ -16,10 +16,17 @@
 
 package me.lyml.summer.account.entity;
 
+import com.google.common.collect.Lists;
 import me.lyml.summer.base.entity.BaseEntity;
+import me.lyml.summer.base.validator.ValidatorGroup;
+import org.apache.ibatis.annotations.Many;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.core.annotation.Order;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @ClassName: Role
@@ -29,10 +36,23 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "s_role")
 class Role extends BaseEntity {
+    @NotNull(groups = {ValidatorGroup.Add.class, ValidatorGroup.Edit.class}, message = "请填写角色名称")
     private String roleName;
     private String roleDesc;
     private Boolean roleStatus;
     private Boolean isSystem;
+
+    /**
+     * 角色所属Moudle
+     */
+    @Transient
+    private List<Module> moduleList = Lists.newArrayList();
+
+    /**
+     * 角色所属权限
+     */
+    @Transient
+    private List<Permission> permissions = Lists.newArrayList();
 
     public String getRoleName() {
         return roleName;
@@ -64,5 +84,29 @@ class Role extends BaseEntity {
 
     public void setSystem(Boolean system) {
         isSystem = system;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "s_role_module", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "module_id")})
+    @Fetch(FetchMode.SUBSELECT)
+    @OrderBy("id ASC")
+    public List<Module> getModuleList() {
+        return moduleList;
+    }
+
+    public void setModuleList(List<Module> moduleList) {
+        this.moduleList = moduleList;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "s_role_permission", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "permission_id")})
+    @Fetch(FetchMode.SUBSELECT)
+    @OrderBy("id ASC")
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
     }
 }

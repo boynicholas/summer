@@ -19,12 +19,12 @@ package me.lyml.summer.account.entity;
 import com.google.common.collect.Lists;
 import me.lyml.summer.base.entity.BaseEntity;
 import me.lyml.summer.base.validator.ValidatorGroup;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -120,5 +120,17 @@ public class User extends BaseEntity {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "s_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @Fetch(FetchMode.SUBSELECT)
+    @OrderBy("id ASC")
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 }

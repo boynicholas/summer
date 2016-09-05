@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.lyml.summer.common.credentials.realm;
+package me.lyml.summer.common.security.realm;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -39,4 +39,5 @@ public class AuthorizationRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         return null;
     }
+
 }

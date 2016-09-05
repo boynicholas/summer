@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package me.lyml.summer.account.entity;
+package me.lyml.summer.account.repository;
 
-import me.lyml.summer.base.entity.BaseEntity;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import me.lyml.summer.account.entity.Permission;
+import me.lyml.summer.base.repository.BaseDao;
 
 /**
- * @ClassName: Department
+ * @ClassName: PermissionDao
  * @author: cnlyml
- * @date: 2016/9/2 19:51
+ * @date: 2016/9/5 9:43
  */
-@Entity
-@Table(name = "s_department")
-public class Department extends BaseEntity {
+public interface PermissionDao extends BaseDao<Permission, Long> {
 }

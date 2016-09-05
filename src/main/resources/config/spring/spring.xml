@@ -121,6 +121,9 @@
     <!-- hibernate validator -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
+    <import resource="classpath*:/config/spring/spring-cache.xml" />
+    <import resource="classpath*:/config/spring/spring-shiro.xml" />
+
     <!-- production环境 -->
     <beans profile="production">
         <!-- 使用Druid数据源 -->
@@ -213,5 +216,4 @@
             <property name="filters" value="config,stat,log4j" />
         </bean>
     </beans>
-
 </beans>

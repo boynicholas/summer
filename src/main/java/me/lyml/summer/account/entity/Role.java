@@ -35,7 +35,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "s_role")
-class Role extends BaseEntity {
+public class Role extends BaseEntity {
     @NotNull(groups = {ValidatorGroup.Add.class, ValidatorGroup.Edit.class}, message = "请填写角色名称")
     private String roleName;
     private String roleDesc;

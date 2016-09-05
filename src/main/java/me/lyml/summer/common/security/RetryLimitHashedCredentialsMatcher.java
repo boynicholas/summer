@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.lyml.summer.common.credentials;
+package me.lyml.summer.common.security;
 
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

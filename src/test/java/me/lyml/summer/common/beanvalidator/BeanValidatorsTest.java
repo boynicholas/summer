@@ -41,11 +41,17 @@ public class BeanValidatorsTest {
     @Test
     public void validateWithExceptionByHasException() throws Exception {
         User user = new User();
+        user.setUserName("admin");
+        user.setUserPass("111111");
+
         try {
             BeanValidators.validateWithException(validator, user, ValidatorGroup.Add.class, ValidatorGroup.Edit.class);
             fail("ConstraintViolationException is not thrown as expected");
         }catch (Exception e) {
             assertTrue(e instanceof ConstraintViolationException);
+
+            ConstraintViolationException ce = (ConstraintViolationException) e;
+            assertTrue(ce.getConstraintViolations().size() == 3);
         }
 
     }

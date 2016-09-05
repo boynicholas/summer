@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.lyml.summer.common.credentials;
+package me.lyml.summer.common.security;
 
 import net.sf.ehcache.Ehcache;
 import org.apache.shiro.cache.Cache;

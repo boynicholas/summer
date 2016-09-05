@@ -14,19 +14,28 @@
  * limitations under the License.
  */
 
-package me.lyml.summer.account.entity;
+package me.lyml.summer.account.service;
 
-import me.lyml.summer.base.entity.BaseEntity;
+import me.lyml.summer.account.entity.Permission;
+import me.lyml.summer.account.repository.PermissionDao;
+import me.lyml.summer.base.repository.BaseDao;
+import me.lyml.summer.base.service.BaseService;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.annotation.Resource;
 
 /**
- * @ClassName: Department
+ * @ClassName: PermissionService
  * @author: cnlyml
- * @date: 2016/9/2 19:51
+ * @date: 2016/9/5 9:47
  */
-@Entity
-@Table(name = "s_department")
-public class Department extends BaseEntity {
+@Component
+public class PermissionService extends BaseService<Permission, Long> {
+    @Resource
+    private PermissionDao dao;
+
+    @Override
+    public BaseDao<Permission, Long> dao() {
+        return dao;
+    }
 }

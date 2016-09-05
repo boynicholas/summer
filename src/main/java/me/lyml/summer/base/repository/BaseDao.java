@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package me.lyml.summer.account.entity;
+package me.lyml.summer.base.repository;
 
 import me.lyml.summer.base.entity.BaseEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.NoRepositoryBean;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
- * @ClassName: Department
+ * @ClassName: BaseDao
  * @author: cnlyml
- * @date: 2016/9/2 19:51
+ * @date: 2016/9/4 21:25
  */
-@Entity
-@Table(name = "s_department")
-public class Department extends BaseEntity {
+@NoRepositoryBean
+public interface BaseDao<T extends BaseEntity, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 }

@@ -29,12 +29,14 @@ import org.eclipse.jetty.server.Server;
 public class StartServer {
     private static final int PORT = 8080;
     private static final String CONTEXT = "/";
+    public static final String[] TLD_JAR_NAMES = new String[] { "sitemesh", "spring-webmvc", "shiro-web"};
 
     public static void main(String[] args) {
 
         Profiles.setProfileAsSystemProperty(Profiles.DEVELOPMENT);
 
         Server server = JettyFactory.createServerInSource(PORT, CONTEXT);
+        JettyFactory.setTldJarNames(server, TLD_JAR_NAMES);
 
         try {
             HandlerInitMessage.handlerMessage();

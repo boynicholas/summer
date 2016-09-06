@@ -26,4 +26,5 @@ import me.lyml.summer.base.repository.BaseDao;
  */
 public interface UserDao extends BaseDao<User, Long>{
 
+    User findUserByUserName(String userName);
 }

@@ -16,10 +16,14 @@
 
 package me.lyml.summer.test.spring;
 
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import java.util.List;
 
 /**
  * @ClassName: JettyFactory
@@ -55,5 +59,21 @@ public class JettyFactory {
         server.setHandler(webAppContext);
 
         return server;
+    }
+
+    /**
+     * 设置除jstl-*.jar外其他含tld文件的jar包的名称.
+     * jar名称不需要版本号，如sitemesh, shiro-web
+     */
+    public static void setTldJarNames(Server server, String... jarNames) {
+        WebAppContext context = (WebAppContext) server.getHandler();
+        List<String> jarNameExprssions = Lists.newArrayList(".*/jstl-[^/]*\\.jar$", ".*/.*taglibs[^/]*\\.jar$");
+        for (String jarName : jarNames) {
+            jarNameExprssions.add(".*/" + jarName + "-[^/]*\\.jar$");
+        }
+
+        context.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
+                StringUtils.join(jarNameExprssions, '|'));
+
     }
 }

@@ -17,11 +17,25 @@
 package me.lyml.summer.account.web;
 
 import me.lyml.summer.base.web.BaseController;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @ClassName: LoginController
  * @author: cnlyml
  * @date: 2016/9/3 14:19
  */
+@Controller
 public class LoginController extends BaseController {
+
+    @RequestMapping(value = "/login")
+    public String login() {
+        if(SecurityUtils.getSubject().isAuthenticated()) {
+            return "redirect:/dashboard/index";
+        }else{
+            return "login";
+        }
+    }
+
 }

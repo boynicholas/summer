@@ -111,6 +111,12 @@
           <version>3.0.1</version>
           <scope>provided</scope>
       </dependency>
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>jstl</artifactId>
+          <version>1.2</version>
+          <scope>provided</scope>
+      </dependency>
 
       <!-- JSR303 BeanValidator -->
       <dependency>
@@ -194,6 +200,11 @@
           <scope>runtime</scope>
       </dependency>
 
+      <dependency>
+          <groupId>commons-collections</groupId>
+          <artifactId>commons-collections</artifactId>
+          <version>3.2.1</version>
+      </dependency>
     <!-- LOGGING begin -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -257,6 +268,11 @@
           <version>${jetty.version}</version>
           <scope>test</scope>
       </dependency>
+      <!--<dependency>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>apache-jstl</artifactId>
+          <version>9.3.11.v20160721</version>
+      </dependency>-->
 
       <!-- Groovy -->
       <dependency>

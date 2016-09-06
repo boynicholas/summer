@@ -34,6 +34,10 @@ public class UserService extends BaseService<User, Long> {
     @Resource
     private UserDao dao;
 
+    public User findUserByUserName(String userName){
+        return dao.findUserByUserName(userName);
+    }
+
     @Override
     public BaseDao<User, Long> dao() {
         return dao;

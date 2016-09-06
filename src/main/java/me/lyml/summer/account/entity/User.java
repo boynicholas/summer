@@ -60,6 +60,8 @@ public class User extends BaseEntity {
 
     private String avatar;
 
+    private String salt;
+
     /**
      * 用户所拥有的角色
      */
@@ -121,6 +123,19 @@ public class User extends BaseEntity {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String generateCredentialsSalt() {
+        return userName + salt;
+    }
+
 
     @ManyToMany
     @JoinTable(name = "s_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})

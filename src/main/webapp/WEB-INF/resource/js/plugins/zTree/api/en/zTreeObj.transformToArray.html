@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright 2016 Cnlyml
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div class="apiDetail">
+<div>
+	<h2><span>Function(treeNodes)</span><span class="path">zTreeObj.</span>transformToArray</h2>
+	<h3>Overview<span class="h3_info">[ depends on <span class="highlight_green">jquery.ztree.core</span> js ]</span></h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p></p>
+			<p>Transform the zTree nodes data into simple array.  (To avoid the user to write code to traverse all nodes)</p>
+			<p class="highlight_red">Please use zTree object to executing the method.</p>
+		</div>
+	</div>
+	<h3>Function Parameter Descriptions</h3>
+	<div class="desc">
+	<h4><b>treeNodes</b><span>Array(JSON) / JSON</span></h4>
+	<p>JSON data object of the node which need to be transformed.</p>
+	<p>or JSON data objects collection of the nodes which need to be transformed.</p>
+	<h4 class="topLine"><b>Return </b><span>Array(JSON)</span></h4>
+	<p>The JSON data objects array of the nodes which be transformed.</p>
+	</div>
+	<h3>Examples of function</h3>
+	<h4>1. Transform the zTree nodes data into simple array.</h4>
+	<pre xmlns=""><code>var treeObj = $.fn.zTree.getZTreeObj("tree");
+var nodes = treeObj.transformToArray(treeObj.getNodes());
+</code></pre>
+</div>
+</div>

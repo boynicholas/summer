@@ -21,7 +21,6 @@ import me.lyml.summer.common.utils.Logs;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.WebDataBinder;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.Resource;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
@@ -47,7 +47,7 @@ import java.util.List;
 public abstract class BaseController {
     protected Logger logger = Logs.get();
 
-    @Autowired
+    @Resource
     protected Validator validator;
 
     /**

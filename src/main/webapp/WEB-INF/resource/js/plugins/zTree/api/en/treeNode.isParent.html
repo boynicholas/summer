@@ -1,0 +1,44 @@
+<!--
+  ~ Copyright 2016 Cnlyml
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div class="apiDetail">
+<div>
+	<h2><span>Boolean</span><span class="path">treeNode.</span>isParent</h2>
+	<h3>Overview<span class="h3_info">[ depends on <span class="highlight_green">jquery.ztree.core</span> js ]</span></h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>Judge whether the node is the parent node.</p>
+			<p class="highlight_red">1. When zTree initialize the node data, the node which has children is set to true, otherwise false.</p>
+			<p class="highlight_red">2. When zTree initialize the node data, if set treeNode.isParent to true, the node will be set to be parent node.</p>
+			<p class="highlight_red">3. In order to solve the problem of someone make json data, supporting "false", "true" format of the data string.</p>
+		</div>
+	</div>
+	<h3>Boolean Format</h3>
+	<div class="desc">
+	<p> true means: the node is parent node.</p>
+	<p> false means: the node is not parent node.</p>
+	</div>
+	<h3>Examples of treeNode</h3>
+	<h4>1. Judge whether the first selected node is the parent node.</h4>
+	<pre xmlns=""><code>var treeObj = $.fn.zTree.getZTreeObj("tree");
+var sNodes = treeObj.getSelectedNodes();
+if (sNodes.length > 0) {
+	var isParent = sNodes[0].isParent;
+}
+</code></pre>
+</div>
+</div>

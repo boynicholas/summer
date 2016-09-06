@@ -16,8 +16,8 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!-- 缓存管理器 -->
     <bean id="cacheManager" class="me.lyml.summer.common.security.SpringCacheManagerWrapper">
@@ -98,6 +98,18 @@
         <property name="arguments" ref="securityManager"/>
     </bean>
 
+    <!-- 基于Form表单的身份验证过滤器 -->
+    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+        <property name="usernameParam" value="userName"/>
+        <property name="passwordParam" value="userPass"/>
+        <property name="rememberMeParam" value="rememberMe"/>
+        <property name="loginUrl" value="/login"/>
+    </bean>
+
+    <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="/login" />
+    </bean>
+
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
@@ -111,6 +123,12 @@
                 /api/** = anon
                 /** = user
             </value>
+        </property>
+        <property name="filters">
+            <util:map>
+                <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="logout" value-ref="logoutFilter" />
+            </util:map>
         </property>
     </bean>
 

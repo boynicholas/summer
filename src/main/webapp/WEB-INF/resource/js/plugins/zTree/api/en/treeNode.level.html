@@ -1,0 +1,41 @@
+<!--
+  ~ Copyright 2016 Cnlyml
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div class="apiDetail">
+<div>
+	<h2><span>Number</span><span class="path">treeNode.</span>level</h2>
+	<h3>Overview<span class="h3_info">[ depends on <span class="highlight_green">jquery.ztree.core</span> js ]</span></h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>The level of node</p>
+			<p class="highlight_red">Do not initialize or modify it, it is created by the zTree.</p>
+		</div>
+	</div>
+	<h3>Number Format</h3>
+	<div class="desc">
+	<p class="highlight_red">The root node's level = 0, and next level = 1, ...</p>
+	</div>
+	<h3>Examples of treeNode</h3>
+	<h4>1. Get the first selected node's level</h4>
+	<pre xmlns=""><code>var treeObj = $.fn.zTree.getZTreeObj("tree");
+var sNodes = treeObj.getSelectedNodes();
+if (sNodes.length > 0) {
+	var level = sNodes[0].level;
+}
+</code></pre>
+</div>
+</div>

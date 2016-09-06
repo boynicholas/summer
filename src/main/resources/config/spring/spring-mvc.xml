@@ -25,6 +25,7 @@
     <mvc:resources mapping="/resources/css/**" location="/WEB-INF/resource/css/" />
     <mvc:resources mapping="/resources/js/**" location="/WEB-INF/resource/js/" />
     <mvc:resources mapping="/resources/fonts/**" location="/WEB-INF/resource/fonts/" />
+    <mvc:resources mapping="/resources/font-awesome/**" location="/WEB-INF/resource/font-awesome/" />
     <mvc:resources mapping="/resources/upload/**" location="/WEB-INF/resource/upload/" />
 
     <!-- 自动扫描且只扫描@Controller -->
@@ -32,6 +33,11 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
+
+    <mvc:annotation-driven />
+
+    <!-- 定义无需Controller的url<->view直接映射 -->
+    <mvc:view-controller path="/" view-name="redirect:/login"/>
 
     <!-- 定义JSP文件的位置 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

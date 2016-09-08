@@ -36,6 +36,8 @@ import java.util.List;
 @Entity
 @Table(name = "s_role")
 public class Role extends BaseEntity {
+    private static final long serialVersionUID = -3208320020667937004L;
+
     @NotNull(groups = {ValidatorGroup.Add.class, ValidatorGroup.Edit.class}, message = "请填写角色名称")
     private String roleName;
     private String roleDesc;

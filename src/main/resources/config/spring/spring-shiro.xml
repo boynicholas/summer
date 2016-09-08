@@ -48,7 +48,7 @@
     </bean>
 
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg value="remeberMe" />
+        <constructor-arg value="security" />
         <property name="httpOnly" value="true" />
         <property name="maxAge" value="2592000" /><!-- 30天 -->
     </bean>
@@ -92,10 +92,20 @@
         <property name="rememberMeManager" ref="rememberMeManager"/>
     </bean>
 
+    <!-- session 校验单个用户是否多次登录 -->
+    <bean id="kickoutSessionFilter" class="me.lyml.summer.common.security.filter.KickoutSessionFilter">
+        <property name="kickoutUrl" value="/login"/>
+        <property name="customSessionManager" ref="customSessionManager" />
+    </bean>
+
     <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
         <property name="arguments" ref="securityManager"/>
+    </bean>
+
+    <bean id="customSessionManager" class="me.lyml.summer.common.security.CustomSessionManager">
+        <property name="sessionDAO" ref="sessionDAO" />
     </bean>
 
     <!-- 基于Form表单的身份验证过滤器 -->
@@ -114,24 +124,29 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
-        <property name="successUrl" value="/" />
+        <property name="successUrl" value="/dashboard/verifyLogin" />
         <property name="filterChainDefinitions">
             <value>
+                /favicon.ico = anon
                 /login = authc
                 /logout = logout
                 /resources/** = anon
+                /upload/** = anon
                 /api/** = anon
-                /** = user
+                /dashboard/** = authc
             </value>
         </property>
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
                 <entry key="logout" value-ref="logoutFilter" />
+                <entry key="kickout" value-ref="kickoutSessionFilter" />
             </util:map>
         </property>
     </bean>
 
     <!-- Shiro生命周期处理器-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+
 </beans>

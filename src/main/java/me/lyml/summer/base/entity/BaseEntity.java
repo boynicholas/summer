@@ -27,6 +27,7 @@ import java.util.Date;
  */
 public abstract class BaseEntity extends IdEntity {
 
+    private static final long serialVersionUID = -364408879713927749L;
     protected Long createUser;
     protected Date createTime;
     protected Long modifyUser;

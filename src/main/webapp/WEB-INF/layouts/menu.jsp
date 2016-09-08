@@ -24,16 +24,16 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element"> <span>
-                            <img alt="image" class="img-circle" src="${fns:getSessionUser().avatar}" style="width:50px;" />
+                            <img alt="image" class="img-circle" src="${fns:getShiroUser().avatar}" style="width:50px;" />
                              </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="dashboard_2.html#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">${fns:getSessionUser().realName}</strong>
-                             </span> <span class="text-muted text-xs block">${fns:getSessionUser().userName} <b class="caret"></b></span> </span> </a>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">${fns:getShiroUser().realName}</strong>
+                             </span> <span class="text-muted text-xs block">${fns:getShiroUser().userName} <b class="caret"></b></span> </span> </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a href="profile.html">个人设置</a></li>
                             <li><a href="contacts.html">修改密码</a></li>
                             <li class="divider"></li>
-                            <li><a href="${ctx}/j_spring_security_logout">注销</a></li>
+                            <li><a href="${ctx}/logout">注销</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">

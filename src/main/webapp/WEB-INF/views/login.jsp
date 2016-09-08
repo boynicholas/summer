@@ -43,56 +43,38 @@
 
 <body class="gray-bg">
 
-<div class="loginColumns animated fadeInDown">
-    <div class="row">
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div class="loginForm">
+        <c:if test="${isRemember eq true}">
+            <img class="profile-img" src="${ctx}${user.avatar}">
+        </c:if>
+        <form class="m-t" role="form" action="${ctx}/login" method="post">
+            <div class="form-group">
+                <c:if test="${isRemember eq true}">
+                    欢迎您：${user.realName}
 
-        <div class="col-md-6">
-            <h2 class="font-bold">欢迎访问Framen</h2>
-
-            <p>它是一个孤单的产物，它是一个拖欠的产物，它和哪吒一样怀胎三年，幸运的是，它来了！</p>
-            <p>Welcome to Zhihang Framen</p>
-            <p>
-                <small>Framen，一个高集成的项目框架，为了高开发，生成一个基础项目只需1分钟。如果你喜欢，来用吧！</small>
-            </p>
-
-        </div>
-        <div class="col-md-6">
-            <div class="ibox-content">
-                <form id="loginForm" class="m-t" role="form"
-                      action="${ctx}/login"
-                      method="post">
-                    <div class="form-group">
-                        <input type="text" name="userName" class="form-control required"
-                               placeholder="用户名">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="userPass"
-                               class="form-control required" placeholder="密码">
-                    </div>
-                    <c:if test="${isValidateCodeLogin}">
-                        <div class="form-group">
-                            <label class="input-label mid" for="validateCode">验证码</label>
-                            <account:validateCode name="validateCode"
-                                              inputCssStyle="margin-bottom:0;" />
-                        </div>
-                    </c:if>
-                    <button type="submit" class="btn btn-primary block full-width m-b">登&nbsp;陆</button>
-
-                </form>
-                <p class="m-t">
-                    <small>本系统生成自Zhihang|Lyml Generate &copy; 2016</small>
-                </p>
+                    <input type="hidden" name="userName" value="${user.userName}" />
+                </c:if>
+                <c:if test="${empty isRemember || isRemember != true}">
+                    <input type="text" class="form-control" name="userName" placeholder="请输入用户名">
+                </c:if>
             </div>
-        </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="userPass" placeholder="请输入密码">
+            </div>
+            <input type="hidden" name="rememberMe" value="true" />
+            <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+
+            <a href="#"><small>忘记密码?</small></a>
+            <c:if test="${isRemember eq true}">
+                <hr>
+                <div style="margin-top:10px;">您已经登陆，<a href="${ctx}/logout">使用其他帐号登陆?</a></div>
+            </c:if>
+        </form>
     </div>
-    <hr />
-    <div class="row">
-        <div class="col-md-6">Copyright Zhihang|Lyml</div>
-        <div class="col-md-6 text-right">
-            <small>© 2016</small>
-        </div>
-    </div>
+    <p class="m-t"> <small>Copyright &copy; 2016 By Cnlyml</small> </p>
 </div>
+
 <!-- Sweet alert -->
 <script src="${ctx}/resources/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="${ctx}/resources/js/zhihang-base.js" type="text/javascript"></script>
@@ -104,5 +86,13 @@
         top.location = "${ctx}";
     }
 </script>
+
+<c:if test="${not empty message}">
+    <script type="text/javascript">
+        $(function() {
+            ZH.Pop.msg(2, "${message}", 3000);
+        });
+    </script>
+</c:if>
 </body>
 </html>

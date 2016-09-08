@@ -28,6 +28,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "s_permission")
 public class Permission extends BaseEntity {
+    private static final long serialVersionUID = 4309311595311798637L;
+
     private String permissionName;
     private String permissionCode;
 

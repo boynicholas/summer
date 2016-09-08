@@ -30,6 +30,7 @@ import java.io.Serializable;
  */
 @MappedSuperclass
 abstract class IdEntity implements Serializable {
+    private static final long serialVersionUID = -4654324368676438998L;
 
     private Long id;
 

@@ -48,7 +48,8 @@
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
-                <prop key="hibernate.show_sql">true</prop>
+                <!-- 是否打印hibernate sql -->
+                <prop key="hibernate.show_sql">false</prop>
             </props>
         </property>
     </bean>

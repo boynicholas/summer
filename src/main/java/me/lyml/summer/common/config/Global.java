@@ -59,7 +59,6 @@ public class Global {
 
     /**
      * 获取配置
-     * @see ${fns:getConfig('adminPath')}
      */
     public static String getConfig(String key) {
         String value = map.get(key);
@@ -68,5 +67,17 @@ public class Global {
             map.put(key, value != null ? value : StringUtils.EMPTY);
         }
         return value;
+    }
+
+    public static long getConfigForLong(String key) {
+        String value = getConfig(key);
+
+        return value == null ? 0L : Long.parseLong(value);
+    }
+
+    public static int getConfigForInt(String key) {
+        String value = getConfig(key);
+
+        return value == null ? 0 : Integer.parseInt(value);
     }
 }

@@ -27,7 +27,7 @@
 
   <properties>
     <!-- 依赖库版本管理 -->
-    <spring.version>4.2.6.RELEASE</spring.version>
+    <spring.version>4.3.2.RELEASE</spring.version>
     <spring-security-version>4.0.1.RELEASE</spring-security-version>
     <hibernate.version>4.3.5.Final</hibernate.version>
       <aspectj.version>1.7.4</aspectj.version>
@@ -52,9 +52,9 @@
     <java.version>1.8</java.version>
 
     <!-- 数据库属性 -->
-    <jdbc.driver.groupId>mysql</jdbc.driver.groupId>
-    <jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId>
-    <jdbc.driver.version>5.1.22</jdbc.driver.version>
+    <jdbc.driver.groupId>org.postgresql</jdbc.driver.groupId>
+    <jdbc.driver.artifactId>postgresql</jdbc.driver.artifactId>
+    <jdbc.driver.version>9.4-1201-jdbc41</jdbc.driver.version>
   </properties>
 
   <dependencies>
@@ -66,6 +66,14 @@
       <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-context-support</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-websocket</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-messaging</artifactId>
       </dependency>
 
       <!-- hibernate -->
@@ -115,7 +123,6 @@
           <groupId>javax.servlet</groupId>
           <artifactId>jstl</artifactId>
           <version>1.2</version>
-          <scope>provided</scope>
       </dependency>
 
       <!-- JSR303 BeanValidator -->
@@ -144,6 +151,11 @@
           <version>1.2.3</version>
       </dependency>
       <!-- shiro -->
+      <dependency>
+          <groupId>org.apache.shiro</groupId>
+          <artifactId>shiro-core</artifactId>
+          <version>${shiro.version}</version>
+      </dependency>
       <dependency>
           <groupId>org.apache.shiro</groupId>
           <artifactId>shiro-spring</artifactId>
@@ -379,6 +391,19 @@
                       </goals>
                   </execution>
               </executions>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.tomcat.maven</groupId>
+              <artifactId>tomcat7-maven-plugin</artifactId>
+              <version>2.2</version>
+              <configuration>
+                  <!-- <warSourceDirectory>webapp</warSourceDirectory> -->
+                  <excludes>WEB-INF/lib</excludes>
+                  <path>/</path>
+                  <port>8080</port>
+                  <uriEncoding>UTF-8</uriEncoding>
+                  <finalName>summer</finalName>
+              </configuration>
           </plugin>
       </plugins>
   </build>

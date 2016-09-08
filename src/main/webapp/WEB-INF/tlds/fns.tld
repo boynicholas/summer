@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
+
 <!--
   ~ Copyright 2016 Cnlyml
   ~
@@ -33,6 +34,22 @@
     <function-class>me.lyml.summer.common.config.Global</function-class>
     <function-signature>java.lang.String getConfig(java.lang.String)</function-signature>
     <example>${fns:getConfig(key)}</example>
+  </function>
+
+  <function>
+    <description>获取当前登录用户</description>
+    <name>getShiroUser</name>
+    <function-class>me.lyml.summer.common.utils.ShiroUtils</function-class>
+    <function-signature>me.lyml.summer.base.entity.ShiroUser getShiroUser() </function-signature>
+    <example>${fns:getShiroUser()}</example>
+  </function>
+
+  <function>
+    <description>是否已登录</description>
+    <name>isAuthenticated</name>
+    <function-class>me.lyml.summer.common.utils.ShiroUtils</function-class>
+    <function-signature>boolean isAuthenticated()n</function-signature>
+    <example>${fns:isAuthenticated()}</example>
   </function>
 
 </taglib>

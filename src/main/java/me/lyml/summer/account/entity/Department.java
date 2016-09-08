@@ -29,4 +29,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "s_department")
 public class Department extends BaseEntity {
+    private static final long serialVersionUID = -5669888667798291049L;
+
 }

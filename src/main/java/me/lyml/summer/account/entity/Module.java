@@ -33,6 +33,8 @@ import java.util.List;
 @Table(name = "s_module")
 public class Module extends BaseEntity{
 
+    private static final long serialVersionUID = 2206999403220813524L;
+
     @Transient
     private Module parentModule;
     private Integer moduleSort;

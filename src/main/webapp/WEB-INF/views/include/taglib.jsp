@@ -3,7 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fns" uri="/WEB-INF/tlds/fns.tld" %>
-<%@ taglib prefix="sys" tagdir="/WEB-INF/tags/sys" %><%--
+
+<%--
   ~ Copyright 2016 Cnlyml
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +19,5 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   --%>
-
 
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>

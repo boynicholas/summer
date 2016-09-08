@@ -37,6 +37,8 @@ import java.util.List;
 @Entity
 @Table(name = "s_user")
 public class User extends BaseEntity {
+    private static final long serialVersionUID = -3679131346466475726L;
+
     @NotNull(groups = {ValidatorGroup.Add.class}, message = "用户名不能为空")
     @Length(groups = {ValidatorGroup.Add.class}, min = 4, max = 12, message = "用户名长度需在4-12位之间")
     private String userName;
@@ -108,12 +110,12 @@ public class User extends BaseEntity {
         this.mobileNo = mobileNo;
     }
 
-    public Boolean getValid() {
+    public Boolean getIsValid() {
         return isValid;
     }
 
-    public void setValid(Boolean valid) {
-        isValid = valid;
+    public void setIsValid(Boolean isValid) {
+        this.isValid = isValid;
     }
 
     public String getAvatar() {

@@ -42,6 +42,8 @@ public class SystemInitialization implements ApplicationListener<ContextRefreshe
             logger.info("----------------------------------------");
             logger.info("      Application Initialization...     ");
             logger.info("----------------------------------------");
+
+            SpringUtils.setApplicationContext(contextRefreshedEvent.getApplicationContext());
         }
     }
 

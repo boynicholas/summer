@@ -201,3 +201,17 @@ public class Collections3 {
 		return list;
 	}
 }
+
+class Test {
+
+	public static void main(String[] args) {
+		String a = "Hello";
+		testOne(a);
+
+		System.out.println(a);
+	}
+
+	private static void testOne(String d) {
+		d += ", World";
+	}
+}

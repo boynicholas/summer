@@ -17,7 +17,8 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 缓存管理器 -->
     <bean id="cacheManager" class="me.lyml.summer.common.security.SpringCacheManagerWrapper">
@@ -92,11 +93,6 @@
         <property name="rememberMeManager" ref="rememberMeManager"/>
     </bean>
 
-    <!-- session 校验单个用户是否多次登录 -->
-    <bean id="kickoutSessionFilter" class="me.lyml.summer.common.security.filter.KickoutSessionFilter">
-        <property name="kickoutUrl" value="/login"/>
-        <property name="customSessionManager" ref="customSessionManager" />
-    </bean>
 
     <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -108,12 +104,17 @@
         <property name="sessionDAO" ref="sessionDAO" />
     </bean>
 
+    <!-- WebSocket -->
+    <bean id="commonWebSocketHandler" class="me.lyml.summer.common.application.websocket.CommonWebSocketHandler">
+        <constructor-arg ref="cacheManager" />
+    </bean>
+
     <!-- 基于Form表单的身份验证过滤器 -->
     <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
         <property name="usernameParam" value="userName"/>
         <property name="passwordParam" value="userPass"/>
         <property name="rememberMeParam" value="rememberMe"/>
-        <property name="loginUrl" value="/login"/>
+        <property name="loginUrl" value="${adminPath}/login"/>
     </bean>
 
     <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
@@ -123,24 +124,23 @@
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login"/>
-        <property name="successUrl" value="/dashboard/verifyLogin" />
+        <property name="loginUrl" value="${adminPath}/login"/>
+        <property name="successUrl" value="${adminPath}/verifyLogin" />
         <property name="filterChainDefinitions">
             <value>
                 /favicon.ico = anon
-                /login = authc
-                /logout = logout
+                ${adminPath}/login = authc
+                ${adminPath}/logout = logout
                 /resources/** = anon
                 /upload/** = anon
                 /api/** = anon
-                /dashboard/** = authc
+                ${adminPath}/** = authc
             </value>
         </property>
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
                 <entry key="logout" value-ref="logoutFilter" />
-                <entry key="kickout" value-ref="kickoutSessionFilter" />
             </util:map>
         </property>
     </bean>

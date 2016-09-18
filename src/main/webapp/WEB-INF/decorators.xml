@@ -21,8 +21,9 @@
     </decorator>
 
     <excludes>
-        <pattern>/resurces/*.*</pattern>
-        <pattern>/login**</pattern>
+        <pattern>/resources/*.*</pattern>
+        <pattern>/resources/**</pattern>
+        <pattern>/*/login**</pattern>
         <pattern>/**?pjax=true</pattern>
     </excludes>
 </decorators>

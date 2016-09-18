@@ -17,21 +17,13 @@
 package me.lyml.summer.common.security;
 
 import me.lyml.summer.common.config.Global;
-import me.lyml.summer.common.security.entity.OnlineUser;
-import me.lyml.summer.common.utils.ShiroUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
-import org.apache.shiro.web.subject.support.DefaultWebSubjectContext;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

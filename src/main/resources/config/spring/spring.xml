@@ -54,6 +54,8 @@
         </property>
     </bean>
 
+    <bean id="systemInitialization" class="me.lyml.summer.common.application.SystemInitialization" lazy-init="true" />
+
     <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
         <property name="databasePlatform">
             <bean factory-method="getDialect" class="me.lyml.summer.base.modules.persistence.Hibernates">
@@ -172,7 +174,8 @@
     <beans profile="development">
         <context:property-placeholder ignore-resource-not-found="true"
                                       location="classpath*:/config/db/db.properties,
-          			  classpath*:/config/db/db.development.properties" />
+          			  classpath*:/config/db/db.development.properties,
+                       classpath*:/config/summer.properties" />
 
         <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
             <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->

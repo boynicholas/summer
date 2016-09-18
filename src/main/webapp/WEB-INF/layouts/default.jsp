@@ -1,7 +1,30 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ taglib prefix="sitemesh" uri="http://www.opensymphony.com/sitemesh/decorator"%>
+<%--
+  ~ Copyright 2016 Cnlyml
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  --%>
 
+<%
+    String path = request.getContextPath();
+    String basePath = request.getServerName() + ":"
+            + request.getServerPort() + path + "/";
+    String basePath2 = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
 <%--
   ~ Copyright 2016 Cnlyml
   ~
@@ -57,6 +80,7 @@
 
     <!-- Sparkline -->
     <script src="${ctx}/resources/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="${ctx}/resources/js/plugins/sockjs/sockjs-1.1.0.min.js"></script>
     <script src="${ctx}/resources/js/zhihang-base.js"></script>
 
     <script>
@@ -67,5 +91,21 @@
     <div class="wrapper wrapper-content wrapper-container">
         <sitemesh:body />
     </div>
+    <script type="text/javascript">
+        var websocket;
+        var path = '<%=basePath%>';
+        if ('WebSocket' in window) {
+            websocket = new WebSocket("ws://" + path + "socket");
+        } else if ('MozWebSocket' in window) {
+            websocket = new MozWebSocket("ws://" + path + "socket");
+        } else {
+            websocket = new SockJS("http://" + path + "socket/sockjs");
+        }
+        websocket.onopen = function(event) {
+            console.log("WebSocket:已连接");
+            console.log(event);
+        };
+
+    </script>
 </body>
 </html>

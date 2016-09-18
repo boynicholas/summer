@@ -22,6 +22,7 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <context:property-placeholder location="classpath*:/config/summer.properties" />
 
     <!-- 自动扫描且只扫描@Controller -->
     <context:component-scan base-package="me.lyml.summer.**.web" use-default-filters="false">
@@ -32,7 +33,9 @@
     <mvc:annotation-driven />
 
     <!-- 定义无需Controller的url<->view直接映射 -->
-    <mvc:view-controller path="/" view-name="redirect:/login"/>
+    <mvc:view-controller path="/" view-name="redirect:${adminPath}/login"/>
+
+
 
     <!-- 定义JSP文件的位置 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -16,7 +16,14 @@
 
 package me.lyml.summer.common.application;
 
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.Base64Utils;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 /**
  * @ClassName: SpringUtils
@@ -34,5 +41,9 @@ public class SpringUtils {
 
     public static void setApplicationContext(ApplicationContext applicationContext) {
         SpringUtils.applicationContext = applicationContext;
+    }
+
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+
     }
 }

@@ -16,13 +16,17 @@
 
 package me.lyml.summer.account.service;
 
+import me.lyml.summer.account.entity.Role;
 import me.lyml.summer.account.entity.User;
 import me.lyml.summer.account.repository.UserDao;
 import me.lyml.summer.base.repository.BaseDao;
 import me.lyml.summer.base.service.BaseService;
+import me.lyml.summer.common.utils.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName: UserService
@@ -36,6 +40,43 @@ public class UserService extends BaseService<User, Long> {
 
     public User findUserByUserName(String userName){
         return dao.findUserByUserName(userName);
+    }
+
+    public List<Role> findRolesByUserID(Long userID) {
+        return dao.findRolesByUserID(userID);
+    }
+
+    public void saveUser(User user) {
+        if(user.getId() == null) {
+            user.setIsValid(true);
+
+            // 添加普通角色
+            List<Role> roleList = new ArrayList<>();
+            Role r = new Role();
+            r.setId(10000002L);
+
+            roleList.add(r);
+            user.setRoleList(roleList);
+        }
+
+        save(user);
+    }
+
+    public void setUserRole(Long userID, String roleids){
+        User user = dao.findOne(userID);
+        if(user == null){
+            return;
+        }
+
+        user.getRoleList().clear();
+
+        String[] ids = StringUtils.split(roleids, ",");
+        for(String roleID : ids){
+            Role r = new Role();
+            r.setId(Long.parseLong(roleID));
+            user.getRoleList().add(r);
+        }
+        save(user);
     }
 
     @Override

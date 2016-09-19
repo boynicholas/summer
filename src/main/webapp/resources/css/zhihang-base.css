@@ -8204,6 +8204,7 @@ body.md-skin {
     position: relative;
     padding-top: 30px;
   }
+
   .timeline-item .date i {
     position: absolute;
     top: 0;
@@ -8214,33 +8215,22 @@ body.md-skin {
     border: 1px solid #e7eaec;
     background: #f8f8f8;
   }
+
   .timeline-item .content {
     border-left: none;
     border-top: 1px solid #e7eaec;
     padding-top: 10px;
     min-height: 100px;
   }
+
   .nav.navbar-top-links li.dropdown {
     display: none;
   }
+
   .ibox-tools {
     float: none;
     text-align: left;
     display: inline-block;
-  }
-}
-/* Only demo */
-@media (max-width: 1000px) {
-  .welcome-message {
-    display: none;
-  }
-}
-@media print {
-  nav.navbar-static-side {
-    display: none;
-  }
-  #page-wrapper {
-    margin: 0;
   }
 }
 
@@ -8264,4 +8254,13 @@ body.md-skin {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
+}
+
+.btn-control {
+  border-radius: 0px;
+  padding:3px 5px;
+}
+
+.btn {
+  border-radius:0px;
 }

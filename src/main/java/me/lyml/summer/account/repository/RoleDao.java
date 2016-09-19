@@ -16,8 +16,12 @@
 
 package me.lyml.summer.account.repository;
 
+import me.lyml.summer.account.entity.Permission;
 import me.lyml.summer.account.entity.Role;
 import me.lyml.summer.base.repository.BaseDao;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @ClassName: RoleDao
@@ -25,4 +29,6 @@ import me.lyml.summer.base.repository.BaseDao;
  * @date: 2016/9/5 9:43
  */
 public interface RoleDao extends BaseDao<Role, Long> {
+    @Query(value = "select p from Permission p inner join p.roleList r where r.id = ?1")
+    List<Permission> findPermissionsByRoleID(Long roleID);
 }

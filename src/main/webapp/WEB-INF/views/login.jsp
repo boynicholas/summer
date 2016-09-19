@@ -71,7 +71,7 @@
         <c:if test="${isRemember eq true}">
             <img class="profile-img" src="${ctx}${user.avatar}">
         </c:if>
-        <form class="m-t" role="form" action="${ctx}/login" method="post">
+        <form class="m-t" role="form" action="${adminCtx}/login" method="post">
             <div class="form-group">
                 <c:if test="${isRemember eq true}">
                     欢迎您：${user.realName}
@@ -116,11 +116,11 @@
     var websocket;
     var path = '<%=basePath%>';
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://" + path + "socket");
+        websocket = new WebSocket("wss://" + path + "socket");
     } else if ('MozWebSocket' in window) {
-        websocket = new MozWebSocket("ws://" + path + "socket");
+        websocket = new MozWebSocket("wss://" + path + "socket");
     } else {
-        websocket = new SockJS("http://" + path + "socket/sockjs");
+        websocket = new SockJS("https://" + path + "socket/sockjs");
     }
     websocket.onopen = function(event) {
         console.log("WebSocket:已连接");

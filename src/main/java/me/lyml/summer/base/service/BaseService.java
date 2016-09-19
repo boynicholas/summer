@@ -16,6 +16,8 @@
 
 package me.lyml.summer.base.service;
 
+import me.lyml.summer.account.entity.Role;
+import me.lyml.summer.account.entity.User;
 import me.lyml.summer.base.entity.BaseEntity;
 import me.lyml.summer.base.modules.persistence.DynamicSpecifications;
 import me.lyml.summer.base.modules.persistence.SearchFilter;
@@ -25,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;

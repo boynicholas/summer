@@ -52,7 +52,7 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "${adminPath}/login", method = RequestMethod.GET)
     public String login(ModelMap map) {
         if(ShiroUtils.isAuthenticated()) {
-            return "redirect:/dashboard/index";
+            return "redirect:index";
         }else if(ShiroUtils.isRemembered()) {
             ShiroUser shiroUser = ShiroUtils.getShiroUser();
             map.put("isRemember", true);
@@ -66,7 +66,7 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "${adminPath}/login", method = RequestMethod.POST)
     public String fail(HttpServletRequest request, ModelMap map) {
         if(ShiroUtils.isAuthenticated()) {
-            return "redirect:${adminPath}/index";
+            return "redirect:index";
         }
 
         String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");

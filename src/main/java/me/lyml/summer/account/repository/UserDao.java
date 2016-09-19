@@ -16,8 +16,12 @@
 
 package me.lyml.summer.account.repository;
 
+import me.lyml.summer.account.entity.Role;
 import me.lyml.summer.account.entity.User;
 import me.lyml.summer.base.repository.BaseDao;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @ClassName: UserDao
@@ -27,4 +31,8 @@ import me.lyml.summer.base.repository.BaseDao;
 public interface UserDao extends BaseDao<User, Long>{
 
     User findUserByUserName(String userName);
+
+
+    @Query(value = "SELECT r FROM Role r INNER JOIN r.userList u WHERE u.id = ?1")
+    List<Role> findRolesByUserID(Long userID);
 }

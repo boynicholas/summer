@@ -42,12 +42,12 @@ public class IndexController extends BaseController {
     private CustomSessionManager customSessionManager;
 
 
-    @RequestMapping("/dashboard/index")
+    @RequestMapping("${adminPath}/index")
     public String index() {
         return "index";
     }
 
-    @RequestMapping(value = "/dashboard/verifyLogin", method = RequestMethod.GET)
+    @RequestMapping(value = "${adminPath}/verifyLogin", method = RequestMethod.GET)
     public String verifyLogin(HttpServletRequest request){
         if(request.getHeader("Referer").contains("login")) {
 
@@ -60,6 +60,6 @@ public class IndexController extends BaseController {
             }
         }
 
-        return "redirect:/dashboard/index";
+        return "redirect:"+getAdminPath()+"/index";
     }
 }

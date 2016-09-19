@@ -56,6 +56,10 @@
 
     <link href="${ctx}/resources/css/animate.css" rel="stylesheet">
     <link href="${ctx}/resources/css/zhihang-base.css" rel="stylesheet">
+    <script type="text/javascript">
+        var Global = (function() { return this || (1,eval)('(this)'); }());
+        Global.adminPath = "${adminCtx}";
+    </script>
 	<sitemesh:head />
 </head>
 
@@ -95,11 +99,11 @@
         var websocket;
         var path = '<%=basePath%>';
         if ('WebSocket' in window) {
-            websocket = new WebSocket("ws://" + path + "socket");
+            websocket = new WebSocket("wss://" + path + "socket");
         } else if ('MozWebSocket' in window) {
-            websocket = new MozWebSocket("ws://" + path + "socket");
+            websocket = new MozWebSocket("wss://" + path + "socket");
         } else {
-            websocket = new SockJS("http://" + path + "socket/sockjs");
+            websocket = new SockJS("https://" + path + "socket/sockjs");
         }
         websocket.onopen = function(event) {
             console.log("WebSocket:已连接");

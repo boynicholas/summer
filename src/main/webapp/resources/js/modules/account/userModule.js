@@ -61,7 +61,7 @@ function setUserRole(userID){
 	var getRoleInfoFail = function(obj) {
 		ZH.Pop.msg(2, obj["message"]);
 	}
-	ZH.Ajax.post('/account/role/getRoleUser', {
+	ZH.Ajax.post(Global.adminPath + '/account/role/getRoleUser', {
 		userID : userID
 	}, 1, getRoleInfoSucc, getRoleInfoFail);
 }
@@ -89,7 +89,7 @@ function doSetUserRole(userID) {
 	}
 	if (!ZH.Utils.isBlank(roles)) {
 		roles = roles.substr(0, roles.length - 1);
-		ZH.Ajax.post('/account/user/setUserRole', {
+		ZH.Ajax.post(Global.adminPath + '/account/user/setUserRole', {
 			userID : userID,
 			roleIDs : roles
 		}, 1, doSetUserRoleSucc, doSetUserRoleFail);

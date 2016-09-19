@@ -16,9 +16,11 @@
 
 package me.lyml.summer.account.entity;
 
+import com.google.common.collect.Lists;
 import me.lyml.summer.base.entity.BaseEntity;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @ClassName: Permission
@@ -30,19 +32,14 @@ import javax.persistence.*;
 public class Permission extends BaseEntity {
     private static final long serialVersionUID = 4309311595311798637L;
 
-    private String permissionName;
     private String permissionCode;
+    private String permissionDesc;
 
     @Transient
     private Module module;
 
-    public String getPermissionName() {
-        return permissionName;
-    }
-
-    public void setPermissionName(String permissionName) {
-        this.permissionName = permissionName;
-    }
+    @Transient
+    private List<Role> roleList = Lists.newArrayList();
 
     public String getPermissionCode() {
         return permissionCode;
@@ -50,6 +47,14 @@ public class Permission extends BaseEntity {
 
     public void setPermissionCode(String permissionCode) {
         this.permissionCode = permissionCode;
+    }
+
+    public String getPermissionDesc() {
+        return permissionDesc;
+    }
+
+    public void setPermissionDesc(String permissionDesc) {
+        this.permissionDesc = permissionDesc;
     }
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -60,5 +65,14 @@ public class Permission extends BaseEntity {
 
     public void setModule(Module module) {
         this.module = module;
+    }
+
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 }

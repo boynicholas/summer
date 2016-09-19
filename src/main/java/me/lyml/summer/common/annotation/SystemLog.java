@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package me.lyml.summer.account.repository;
+package me.lyml.summer.common.annotation;
 
-import me.lyml.summer.account.entity.Permission;
-import me.lyml.summer.base.repository.BaseDao;
+import java.lang.annotation.*;
 
 /**
- * @ClassName: PermissionDao
+ * @ClassName: SystemLog
  * @author: cnlyml
- * @date: 2016/9/5 9:43
+ * @date: 2016/9/18 16:54
  */
-public interface PermissionDao extends BaseDao<Permission, Long> {
+@Target({ElementType.PARAMETER, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface SystemLog {
+
+    String module() default "";
+
+    String method() default "";
+
+    String desc() default "";
 }

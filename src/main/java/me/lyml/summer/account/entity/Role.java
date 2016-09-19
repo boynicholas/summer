@@ -26,6 +26,7 @@ import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -35,20 +36,25 @@ import java.util.List;
  */
 @Entity
 @Table(name = "s_role")
-public class Role extends BaseEntity {
+public class Role extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -3208320020667937004L;
 
     @NotNull(groups = {ValidatorGroup.Add.class, ValidatorGroup.Edit.class}, message = "请填写角色名称")
+
+    @Column(name = "role_name")
     private String roleName;
+
+    @Column(name = "role_desc")
     private String roleDesc;
+
+    @Column(name = "role_status")
     private Boolean roleStatus;
+
+    @Column(name = "is_system")
     private Boolean isSystem;
 
-    /**
-     * 角色所属Moudle
-     */
     @Transient
-    private List<Module> moduleList = Lists.newArrayList();
+    private List<User> userList = Lists.newArrayList();
 
     /**
      * 角色所属权限
@@ -56,6 +62,7 @@ public class Role extends BaseEntity {
     @Transient
     private List<Permission> permissions = Lists.newArrayList();
 
+    @Column(name = "role_name")
     public String getRoleName() {
         return roleName;
     }
@@ -64,6 +71,7 @@ public class Role extends BaseEntity {
         this.roleName = roleName;
     }
 
+    @Column(name = "role_desc")
     public String getRoleDesc() {
         return roleDesc;
     }
@@ -72,6 +80,7 @@ public class Role extends BaseEntity {
         this.roleDesc = roleDesc;
     }
 
+    @Column(name = "role_status")
     public Boolean getRoleStatus() {
         return roleStatus;
     }
@@ -80,24 +89,13 @@ public class Role extends BaseEntity {
         this.roleStatus = roleStatus;
     }
 
-    public Boolean getSystem() {
+    @Column(name = "is_system")
+    public Boolean getIsSystem() {
         return isSystem;
     }
 
-    public void setSystem(Boolean system) {
-        isSystem = system;
-    }
-
-    @ManyToMany
-    @JoinTable(name = "s_role_module", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "module_id")})
-    @Fetch(FetchMode.SUBSELECT)
-    @OrderBy("id ASC")
-    public List<Module> getModuleList() {
-        return moduleList;
-    }
-
-    public void setModuleList(List<Module> moduleList) {
-        this.moduleList = moduleList;
+    public void setIsSystem(Boolean isSystem) {
+        this.isSystem = isSystem;
     }
 
     @ManyToMany
@@ -110,5 +108,14 @@ public class Role extends BaseEntity {
 
     public void setPermissions(List<Permission> permissions) {
         this.permissions = permissions;
+    }
+
+    @ManyToMany(mappedBy = "roleList", fetch = FetchType.LAZY)
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 }

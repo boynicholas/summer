@@ -17,6 +17,7 @@
 package me.lyml.summer.base.web;
 
 import me.lyml.summer.common.beanvalidator.BeanValidators;
+import me.lyml.summer.common.config.Global;
 import me.lyml.summer.common.utils.Logs;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -235,5 +236,10 @@ public abstract class BaseController {
                 }
             }
         });
+    }
+
+
+    protected String getAdminPath() {
+        return Global.getConfig("adminPath");
     }
 }

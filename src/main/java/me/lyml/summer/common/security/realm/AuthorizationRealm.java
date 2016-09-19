@@ -16,18 +16,28 @@
 
 package me.lyml.summer.common.security.realm;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import me.lyml.summer.account.entity.Permission;
+import me.lyml.summer.account.entity.Role;
 import me.lyml.summer.account.entity.User;
+import me.lyml.summer.account.service.RoleService;
 import me.lyml.summer.account.service.UserService;
 import me.lyml.summer.base.entity.ShiroUser;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: AuthorizationRealm
@@ -37,10 +47,29 @@ import java.util.Objects;
 public class AuthorizationRealm extends AuthorizingRealm {
     @Resource
     private UserService userService;
+    @Resource
+    private RoleService roleService;
 
+    /**
+     * 授权查询回调函数, 进行鉴权但缓存中无用户的授权信息时调用
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        ShiroUser shiroUser = (ShiroUser) principalCollection.getPrimaryPrincipal();
+        List<Role> roleList = userService.findRolesByUserID(shiroUser.getId());
+        Set<String> permissions = Sets.newHashSet();
+        Set<String> roles = Sets.newHashSet();
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        for(Role role : roleList) {
+            List<Permission> permissionList = roleService.findPermissionsByRoleID(role.getId());
+            permissions.addAll(permissionList.stream().map(Permission::getPermissionCode).collect(Collectors.toList()));
+            roles.add(role.getId() + "");
+        }
+
+        info.addStringPermissions(permissions);
+        info.addRoles(roles);
+
+        return info;
     }
 
     @Override

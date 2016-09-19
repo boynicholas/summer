@@ -16,13 +16,17 @@
 
 package me.lyml.summer.account.service;
 
+import me.lyml.summer.account.entity.Permission;
 import me.lyml.summer.account.entity.Role;
 import me.lyml.summer.account.repository.RoleDao;
+import me.lyml.summer.account.repository.mybatis.RoleMapperDao;
 import me.lyml.summer.base.repository.BaseDao;
 import me.lyml.summer.base.service.BaseService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: RoleService
@@ -33,9 +37,19 @@ import javax.annotation.Resource;
 public class RoleService extends BaseService<Role, Long> {
     @Resource
     private RoleDao dao;
+    @Resource
+    private RoleMapperDao mapperDao;
 
     @Override
     public BaseDao<Role, Long> dao() {
         return dao;
+    }
+
+    public List<Map<String,Object>> findRoleByUserID(Long userID) {
+        return mapperDao.findRoleByUserID(userID);
+    }
+
+    public List<Permission> findPermissionsByRoleID(Long roleID) {
+        return dao.findPermissionsByRoleID(roleID);
     }
 }

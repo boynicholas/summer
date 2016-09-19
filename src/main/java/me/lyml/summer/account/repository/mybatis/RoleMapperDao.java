@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package me.lyml.summer.account.service;
+package me.lyml.summer.account.repository.mybatis;
 
-import me.lyml.summer.account.entity.Permission;
-import me.lyml.summer.account.repository.PermissionDao;
-import me.lyml.summer.base.repository.BaseDao;
-import me.lyml.summer.base.service.BaseService;
-import org.springframework.stereotype.Component;
+import me.lyml.summer.base.repository.mybatis.MybatisRepository;
 
-import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
- * @ClassName: PermissionService
+ * @ClassName: RoleMapperDao
  * @author: cnlyml
- * @date: 2016/9/5 9:47
+ * @date: 2016/9/18 17:06
  */
-@Component
-public class PermissionService extends BaseService<Permission, Long> {
-    @Resource
-    private PermissionDao dao;
+@MybatisRepository
+public interface RoleMapperDao {
 
-    @Override
-    public BaseDao<Permission, Long> dao() {
-        return dao;
-    }
+    public List<Map<String, Object>> findRoleByUserID(Long userID);
 }

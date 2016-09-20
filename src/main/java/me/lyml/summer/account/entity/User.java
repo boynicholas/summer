@@ -21,6 +21,7 @@ import me.lyml.summer.base.entity.BaseEntity;
 import me.lyml.summer.base.validator.ValidatorGroup;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
@@ -36,6 +37,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "s_user")
+@Where(clause = "deleted = 0")
 public class User extends BaseEntity {
     private static final long serialVersionUID = -3679131346466475726L;
 

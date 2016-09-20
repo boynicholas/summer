@@ -14,3 +14,21 @@
  * limitations under the License.
  */
 
+package me.lyml.summer.account.repository.mybatis;
+
+import me.lyml.summer.account.entity.Module;
+import me.lyml.summer.base.repository.mybatis.MybatisRepository;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * @ClassName: ModuleMapperDao
+ * @author: cnlyml
+ * @date: 2016/9/19 15:05
+ */
+@MybatisRepository
+public interface ModuleMapperDao {
+
+    List<Module> findModuleByParentID(@Param("parentID") Long parentID);
+}

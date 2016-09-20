@@ -14,3 +14,13 @@
  * limitations under the License.
  */
 
+package me.lyml.summer.common.security.googleauth;
+
+/**
+ * @ClassName: IGoogleAuthenticator
+ * @author: cnlyml
+ * @date: 2016/9/20 15:54
+ */
+public interface IGoogleAuthenticator {
+
+}

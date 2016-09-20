@@ -14,3 +14,26 @@
  * limitations under the License.
  */
 
+package me.lyml.summer.account.service;
+
+import me.lyml.summer.account.entity.Permission;
+import me.lyml.summer.account.repository.PermissionDao;
+import me.lyml.summer.base.repository.BaseDao;
+import me.lyml.summer.base.service.BaseService;
+
+import javax.annotation.Resource;
+
+/**
+ * @ClassName: PermissionService
+ * @author: cnlyml
+ * @date: 2016/9/20 17:26
+ */
+public class PermissionService extends BaseService<Permission, Long>{
+    @Resource
+    private PermissionDao dao;
+
+    @Override
+    public BaseDao<Permission, Long> dao() {
+        return dao;
+    }
+}

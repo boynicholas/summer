@@ -60,6 +60,18 @@
         var Global = (function() { return this || (1,eval)('(this)'); }());
         Global.adminPath = "${adminCtx}";
     </script>
+    <script type="text/javascript" src="${ctx}/resources/js/plugins/sea/sea.js" id="seajsnode"></script>
+    <script type="text/javascript">
+        seajs.config({
+            base: "${ctx}/resources/js/sea/",
+            debug:"true",
+            paths: {
+                "dashboard":"${ctx}/resources/js/modules",
+                "plugins":"${ctx}/resources/js/plugins",
+                "js":"${ctx}/resources/js"
+            }
+        });
+    </script>
 	<sitemesh:head />
 </head>
 

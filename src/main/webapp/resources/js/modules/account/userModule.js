@@ -95,3 +95,17 @@ function doSetUserRole(userID) {
 		}, 1, doSetUserRoleSucc, doSetUserRoleFail);
 	}
 }
+
+function enable(userID, status) {
+	ZH.Pop.confirm("您确认要" + (status == 1 ? "启用" : "禁用") + "此用户?", function() {
+		ZH.Ajax.post(Global.adminPath + "/account/user/enable", {
+			id : userID,
+			status : status
+		}, 1, function(obj) {
+			ZH.Pop.msg(1, obj.message, 3000);
+			setTimeout(function(){
+				ZH.Pjax.reload();
+			}, 2000);
+		});
+	});
+}

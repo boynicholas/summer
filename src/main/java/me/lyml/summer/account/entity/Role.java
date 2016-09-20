@@ -22,6 +22,7 @@ import me.lyml.summer.base.validator.ValidatorGroup;
 import org.apache.ibatis.annotations.Many;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Where;
 import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
@@ -36,6 +37,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "s_role")
+@Where(clause = "deleted = 0")
 public class Role extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -3208320020667937004L;
 
@@ -102,6 +104,7 @@ public class Role extends BaseEntity implements Serializable {
     @JoinTable(name = "s_role_permission", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "permission_id")})
     @Fetch(FetchMode.SUBSELECT)
     @OrderBy("id ASC")
+    @Where(clause = "deleted = 0")
     public List<Permission> getPermissions() {
         return permissions;
     }

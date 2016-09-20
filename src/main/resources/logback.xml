@@ -38,6 +38,9 @@
 	<!--log4jdbc -->
 	<logger name="jdbc.sqltiming" level="INFO"/>
 
+	<!-- Hibernate Cache Debug -->
+	<logger name="org.hibernate.cache" level="DEBUG" />
+
 	<root level="INFO">
 		<appender-ref ref="console" />
 	</root>

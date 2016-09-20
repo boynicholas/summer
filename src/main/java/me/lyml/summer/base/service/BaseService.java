@@ -16,21 +16,17 @@
 
 package me.lyml.summer.base.service;
 
-import me.lyml.summer.account.entity.Role;
-import me.lyml.summer.account.entity.User;
 import me.lyml.summer.base.entity.BaseEntity;
 import me.lyml.summer.base.modules.persistence.DynamicSpecifications;
 import me.lyml.summer.base.modules.persistence.SearchFilter;
 import me.lyml.summer.base.repository.BaseDao;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName: BaseService
@@ -117,7 +113,9 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
      * @param t 实例对象
      */
     public void delete(T t){
-        dao().delete(t);
+        /*dao().delete(t);*/
+        t.setDeleted(true);
+        save(t);
     }
 
     /**
@@ -125,7 +123,12 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
      * @param id ID
      */
     public void delete(ID id){
-        dao().delete(id);
+        /*dao().delete(id);*/
+
+        T t = get(id);
+        t.setDeleted(true);
+
+        save(t);
     }
 
     /**
@@ -133,14 +136,23 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
      * @param entities List实例对象
      */
     public void delete(List<T> entities){
-        dao().delete(entities);
+        /*dao().delete(entities);*/
+        for (T t : entities) {
+            t.setDeleted(true);
+        }
+        dao().save(entities);
     }
 
     /**
      * 删除所有对象
      */
     public void deleteAll(){
-        dao().deleteAll();
+        List<T> entities = dao().findAll();
+        for(T t : entities) {
+            t.setDeleted(true);
+        }
+
+        dao().save(entities);
     }
 
     /**
@@ -169,4 +181,5 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
     public long countByFilter(Map<String, Object> filterParams){
         return dao().count(buildSpecification(filterParams));
     }
+
 }

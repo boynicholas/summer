@@ -18,11 +18,13 @@ package me.lyml.summer.account.service;
 
 import me.lyml.summer.account.entity.Module;
 import me.lyml.summer.account.repository.ModuleDao;
+import me.lyml.summer.account.repository.mybatis.ModuleMapperDao;
 import me.lyml.summer.base.repository.BaseDao;
 import me.lyml.summer.base.service.BaseService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName: ModuleService
@@ -33,6 +35,22 @@ import javax.annotation.Resource;
 public class ModuleService extends BaseService<Module, Long> {
     @Resource
     private ModuleDao dao;
+    @Resource
+    private ModuleMapperDao mapperDao;
+
+    public List<Module> findModuleByParentID(Long parentID) {
+        return mapperDao.findModuleByParentID(parentID);
+    }
+
+    public void saveModule(Module module) {
+        if(module.getId() != null) {
+            Module oldModule = get(module.getId());
+
+            oldModule.setModuleName(module.getModuleName());
+            oldModule.setModuleCode(module.getModuleCode());
+
+        }
+    }
 
     @Override
     public BaseDao<Module, Long> dao() {

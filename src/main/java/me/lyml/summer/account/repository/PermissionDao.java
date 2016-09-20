@@ -14,3 +14,15 @@
  * limitations under the License.
  */
 
+package me.lyml.summer.account.repository;
+
+import me.lyml.summer.account.entity.Permission;
+import me.lyml.summer.base.repository.BaseDao;
+
+/**
+ * @ClassName: PermissionDao
+ * @author: cnlyml
+ * @date: 2016/9/20 17:25
+ */
+public interface PermissionDao extends BaseDao<Permission, Long>{
+}

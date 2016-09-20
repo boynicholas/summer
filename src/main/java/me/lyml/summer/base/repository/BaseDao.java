@@ -30,4 +30,5 @@ import java.io.Serializable;
  */
 @NoRepositoryBean
 public interface BaseDao<T extends BaseEntity, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+
 }

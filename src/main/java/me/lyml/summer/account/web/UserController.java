@@ -17,6 +17,7 @@
 package me.lyml.summer.account.web;
 
 import me.lyml.summer.account.entity.User;
+import me.lyml.summer.account.service.RoleService;
 import me.lyml.summer.account.service.UserService;
 import me.lyml.summer.base.entity.pager.Pager;
 import me.lyml.summer.base.validator.ValidatorGroup;
@@ -30,6 +31,7 @@ import org.apache.shiro.web.servlet.ShiroHttpServletResponse;
 import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,8 +62,10 @@ public class UserController extends BaseController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private RoleService roleService;
 
-    @RequestMapping("")
+    @RequestMapping(value = {"", "page"})
     @RequiresPermissions({"account.user.view"})
     @SystemLog(module = "用户管理", method = "列表页面", desc = "列表页面")
     public String list(Pager pager, HttpServletRequest request, Model model) {
@@ -73,6 +77,7 @@ public class UserController extends BaseController {
         Page<User> page = userService.findByFilter(searchParams, pager);
 
         model.addAttribute("page", page);
+        model.addAttribute("roles", roleService.getAll());
 
         return "sys/account/userList";
     }
@@ -183,5 +188,26 @@ public class UserController extends BaseController {
             e.printStackTrace();
             return JsonRestResult.toFailure(JsonRestResult.Code.FUNCTION_EXCEPTION, "用户角色配置失败");
         }
+    }
+
+    @RequestMapping(value = "enable")
+    @ResponseBody
+    @RequiresPermissions("account:user:enable")
+    @SystemLog(module = "用户管理", method = "设置用户状态", desc = "设置用户状态")
+    public String enable(@RequestParam Long id, @RequestParam Integer status) {
+        User user = userService.get(id);
+
+        if(user == null) {
+            return JsonRestResult.toFailure(JsonRestResult.Code.FUNCTION_EXCEPTION, "找不到该用户数据");
+        }
+
+        user.setIsValid(status == 1);
+        userService.save(user);
+
+        if(logger.isInfoEnabled()) {
+            logger.info(MessageFormat.format("用户{0}配置用户{1}{2}成功", ShiroUtils.getShiroUser().getUserName(), user.getUserName(), status == 1 ? "启用" : "禁用"));
+        }
+
+        return JsonRestResult.toSuccess("变更状态成功");
     }
 }

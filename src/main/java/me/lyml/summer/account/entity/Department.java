@@ -17,6 +17,7 @@
 package me.lyml.summer.account.entity;
 
 import me.lyml.summer.base.entity.BaseEntity;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -28,6 +29,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "s_department")
+@Where(clause = "deleted = 0")
 public class Department extends BaseEntity {
     private static final long serialVersionUID = -5669888667798291049L;
 

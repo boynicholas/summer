@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2016 Cnlyml
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.lyml.summer.account.repository.mybatis.ModuleMapperDao">
+
+    <resultMap id="permissionResultMap" type="me.lyml.summer.account.entity.Permission">
+        <id property="id" column="id" />
+        <result property="permissionCode" column="permission_code" />
+        <result property="permissionDesc" column="permission_desc" />
+    </resultMap>
+
+    <resultMap id="moduleResultMap" type="me.lyml.summer.account.entity.Module">
+        <id property="id" column="id" />
+        <result property="moduleSort" column="module_sort" />
+        <result property="moduleName" column="module_name" />
+        <result property="moduleUrl" column="module_url" />
+        <result property="moduleIcon" column="module_icon" />
+        <result property="moduleCode" column="module_code" />
+        <result property="description" column="description" />
+        <result property="moduleStatus" column="module_status" />
+        <result property="isParent" column="is_parent" />
+        <collection property="permissions" ofType="me.lyml.summer.account.entity.Permission"  column="id" select="findPermissionByModuleID" />
+    </resultMap>
+
+    <select id="findModuleByParentID" parameterType="long" resultMap="moduleResultMap">
+        SELECT DISTINCT
+        A.*,
+        (CASE WHEN (SELECT COUNT(B.id) FROM s_module B where B.parent_id = A.id) > 0 THEN 'true' ELSE 'false' END) AS is_parent
+        FROM
+        s_module A WHERE
+
+        <choose>
+            <when test="parentID != null and parentID != ''">
+                A.parent_id = #{parentID}
+            </when>
+            <otherwise>
+                A.parent_id is NULL
+            </otherwise>
+        </choose>
+        Order By A.id ASC, A.module_sort ASC
+    </select>
+
+    <select id="findPermissionByModuleID" parameterType="Long" resultType="me.lyml.summer.account.entity.Permission">
+        select * from s_permission where module_id = #{id}
+    </select>
+</mapper>

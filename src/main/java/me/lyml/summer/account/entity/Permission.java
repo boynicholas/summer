@@ -18,8 +18,12 @@ package me.lyml.summer.account.entity;
 
 import com.google.common.collect.Lists;
 import me.lyml.summer.base.entity.BaseEntity;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -29,6 +33,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "s_permission")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cacheable
+@Where(clause = "deleted = 0")
 public class Permission extends BaseEntity {
     private static final long serialVersionUID = 4309311595311798637L;
 
@@ -75,4 +82,5 @@ public class Permission extends BaseEntity {
     public void setRoleList(List<Role> roleList) {
         this.roleList = roleList;
     }
+
 }

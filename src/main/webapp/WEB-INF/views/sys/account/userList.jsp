@@ -48,7 +48,7 @@
     </div>
 </div>
 <div class="wrapper wrapper-content animated">
-    <form  method="post" role="form" id="queryForm" data-pjax="true" action="${adminCtx}/account/user/page">
+    <form  method="post" role="form" id="queryForm" data-pjax="true" action="${adminCtx}/account/user">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>搜索</h5>
@@ -75,14 +75,17 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="control-label" for="quantity">角色</label>
-                            <select name="s_EQ_role.id" class="form-control">
+                            <select name="s_EQ_roleList.id" class="form-control">
                                 <option value="">全部</option>
+                                <c:forEach items="${roles}" var="role">
+                                    <option value="${role.id}">${role.roleName}</option>
+                                </c:forEach>
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group" style="margin-top:22px;">
-                            <button class="btn btn-primary">搜&nbsp;索</button>
+                            <button type="submit" class="btn btn-primary">搜&nbsp;索</button>
                             <shiro:hasPermission name="account:user:export">
                                 <button class="btn btn-primary">导&nbsp;出</button>
                             </shiro:hasPermission>
@@ -96,7 +99,7 @@
             <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-content">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered client-table">
                             <thead>
                             <tr>
 
@@ -114,7 +117,7 @@
                             <c:forEach varStatus="s" items="${page.content}" var="user">
                                 <tr>
                                     <td>${s.index + 1}</td>
-                                    <td>${user.userName}</td>
+                                    <td><img class="client-avatar" alt="image" src="${user.avatar}"/> ${user.userName}</td>
                                     <td>${user.realName}</td>
                                     <td>${user.email}</td>
                                     <td>${user.mobileNo}</td>
@@ -128,12 +131,12 @@
                                             <span class="label label-primary">有 效</span>
                                         </c:if>
                                         <c:if test="${user.isValid eq false}">
-                                            <span class="label label-default">无 效</span>
+                                            <span class="label label-danger">无 效</span>
                                         </c:if>
                                     </td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="${adminCtx}/account/user/form/view/${user.id}" class="btn-white btn btn-xs">查看</a>
+                                            <a href="${adminCtx}/account/user/view/${user.id}" class="btn-white btn btn-xs">查看</a>
                                             <shiro:hasPermission name="account:user:modify">
                                                 <a href="${adminCtx}/account/user/form/${user.id}" data-pjax="true" class="btn-white btn btn-xs">编辑</a>
                                             </shiro:hasPermission>
@@ -142,10 +145,10 @@
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <c:if test="${user.isValid eq true}">
-                                                            <a href="buttons.html#">禁用</a>
+                                                            <a href="javascript:enable('${user.id}', 0)">禁用</a>
                                                         </c:if>
                                                         <c:if test="${user.isValid eq false}">
-                                                            <a href="buttons.html#">启用</a>
+                                                            <a href="javascript:enable('${user.id}', 1)">启用</a>
                                                         </c:if>
                                                     </li>
                                                     <li><a href="javascript:setUserRole('${user.id}');">设置角色</a></li>

@@ -18,10 +18,12 @@ package me.lyml.summer.account.entity;
 
 import com.google.common.collect.Lists;
 import me.lyml.summer.base.entity.BaseEntity;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -29,19 +31,55 @@ import java.util.List;
  * @author: cnlyml
  * @date: 2016/9/2 19:50
  */
+
 @Entity
 @Table(name = "s_module")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cacheable
+@Where(clause = "deleted = 0")
 public class Module extends BaseEntity{
 
     private static final long serialVersionUID = 2206999403220813524L;
 
+    /**
+     * 上级模块
+     */
     @Transient
     private Module parentModule;
+
+    /**
+     * 模块排序
+     */
     private Integer moduleSort;
+
+    /**
+     * 模块名称
+     */
     private String moduleName;
+
+    /**
+     * 模块地址
+     */
     private String moduleUrl;
+
+    /**
+     * 模块图标
+     */
     private String moduleIcon;
+
+    /**
+     * 模块标识
+     */
+    private String moduleCode;
+
+    /**
+     * 模块介绍
+     */
     private String description;
+
+    /**
+     * 模块状态
+     */
     private Integer moduleStatus;
 
     /**
@@ -49,6 +87,9 @@ public class Module extends BaseEntity{
      */
     @Transient
     private List<Permission> permissions = Lists.newArrayList();
+
+    @Transient
+    private boolean isParent;
 
     @OneToOne
     @JoinColumn(name = "parent_id")
@@ -92,6 +133,14 @@ public class Module extends BaseEntity{
         this.moduleIcon = moduleIcon;
     }
 
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -109,11 +158,21 @@ public class Module extends BaseEntity{
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "module")
+    @Where(clause = "deleted = 0")
     public List<Permission> getPermissions() {
         return permissions;
     }
 
     public void setPermissions(List<Permission> permissions) {
         this.permissions = permissions;
+    }
+
+    public void setIsParent(boolean parent) {
+        this.isParent = parent;
+}
+
+    @Transient
+    public boolean getIsParent() {
+        return isParent;
     }
 }

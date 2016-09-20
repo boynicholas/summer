@@ -65,14 +65,11 @@
            overflowToDisk="false"
            statistics="true">
     </cache>
-    <!-- 验证码分布式缓存-->
-    <cache name="jCaptchaCache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="360000"
-           timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
-    </cache>
+
+    <!-- 权限缓存 -->
+    <cache name="me.lyml.summer.account.entity.Permission" maxEntriesLocalHeap="2000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <!-- 模块缓存 -->
+    <cache name="me.lyml.summer.account.entity.Module" maxEntriesLocalHeap="2000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="true" />
 
 </ehcache>

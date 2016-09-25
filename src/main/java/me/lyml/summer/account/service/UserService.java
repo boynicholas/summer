@@ -23,6 +23,7 @@ import me.lyml.summer.base.repository.BaseDao;
 import me.lyml.summer.base.service.BaseService;
 import me.lyml.summer.common.utils.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.List;
  * @date: 2016/9/5 9:47
  */
 @Component
+@Transactional(readOnly = true)
 public class UserService extends BaseService<User, Long> {
     @Resource
     private UserDao dao;
@@ -46,6 +48,7 @@ public class UserService extends BaseService<User, Long> {
         return dao.findRolesByUserID(userID);
     }
 
+    @Transactional(readOnly = false)
     public void saveUser(User user) {
         if(user.getId() == null) {
             user.setIsValid(true);
@@ -62,6 +65,7 @@ public class UserService extends BaseService<User, Long> {
         save(user);
     }
 
+    @Transactional(readOnly = false)
     public void setUserRole(Long userID, String roleids){
         User user = dao.findOne(userID);
         if(user == null){

@@ -48,7 +48,8 @@ define(function (require, exports, module) {
                 isCopy:false
             },
             enable:true,
-            showRenameBtn:false
+            showRenameBtn:false,
+            showRemoveBtn:false
         }
     };
 
@@ -78,6 +79,10 @@ define(function (require, exports, module) {
             step: 1,
             buttondown_class: 'btn btn-white',
             buttonup_class: 'btn btn-white'
+        });
+
+        $("#deleteModuleBtn").click(function() {
+            
         });
 
         $("#addModuleBtn").click(function () {

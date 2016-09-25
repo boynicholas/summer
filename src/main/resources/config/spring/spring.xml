@@ -97,37 +97,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <!-- 配置事务支持的方法 -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <!-- the transactional semantics... -->
-        <tx:attributes>
-            <tx:method name="insert*" propagation="REQUIRED" />
-            <tx:method name="save*" propagation="REQUIRED" />
-            <tx:method name="add*" propagation="REQUIRED" />
-            <tx:method name="create*" propagation="REQUIRED" />
-            <tx:method name="delete*" propagation="REQUIRED" />
-            <tx:method name="submit*" propagation="REQUIRED" />
-            <tx:method name="update*" propagation="REQUIRED" />
-            <tx:method name="handle*" propagation="REQUIRED" />
-            <tx:method name="register*" propagation="REQUIRED" />
-            <tx:method name="*Process*" propagation="REQUIRED" />
-            <tx:method name="modify*" propagation="REQUIRED" />
-            <tx:method name="assign*" propagation="REQUIRED" />
-            <tx:method name="query*" read-only="true" propagation="SUPPORTS" />
-            <tx:method name="get*" read-only="true" propagation="SUPPORTS" />
-            <tx:method name="find*" read-only="true" propagation="SUPPORTS" />
-            <tx:method name="select*" read-only="true" propagation="SUPPORTS" />
-            <tx:method name="count*" read-only="true" propagation="SUPPORTS" />
-            <tx:method name="*" read-only="true" propagation="SUPPORTS" />
-        </tx:attributes>
-    </tx:advice>
-
-    <!-- 通过切面在service层实现事务提交 -->
-    <aop:config>
-        <aop:pointcut id="executeService" expression="(execution(* me.lyml.summer.*.service..*.*(..)))" />
-        <aop:advisor pointcut-ref="executeService" advice-ref="txAdvice" />
-    </aop:config>
-
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
     <!-- 定义aspectj -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 

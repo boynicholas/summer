@@ -98,6 +98,10 @@
 				});
 			},
 
+            msg: function(message) {
+                layer.msg(message);
+            },
+
 			/**
 			 * 弹出信息框
 			 */
@@ -255,6 +259,9 @@
 			}
 		},
 		Ajax: {
+			post: function(url, params, suc, err) {
+				ZH.Ajax.post(url, params, false, suc, err);
+			},
 			post: function(url, params, ismask, suc, err) {
 				if(ismask){
 					index = ZH.Pop.mask();

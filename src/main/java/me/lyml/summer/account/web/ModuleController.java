@@ -19,6 +19,7 @@ package me.lyml.summer.account.web;
 import me.lyml.summer.account.entity.Module;
 import me.lyml.summer.account.service.ModuleService;
 import me.lyml.summer.base.web.BaseController;
+import me.lyml.summer.common.utils.JsonRestResult;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,5 +57,15 @@ public class ModuleController extends BaseController {
     @ResponseBody
     public String save(Module module) {
         return null;
+    }
+
+    public String delete(Long id) {
+        Module module = moduleService.get(id);
+        if(module != null) {
+            module.setDeleted(true);
+            moduleService.save(module);
+        }
+
+        return JsonRestResult.toSuccess("删除成功");
     }
 }

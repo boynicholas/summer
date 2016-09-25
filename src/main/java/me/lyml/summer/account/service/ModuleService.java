@@ -22,6 +22,7 @@ import me.lyml.summer.account.repository.mybatis.ModuleMapperDao;
 import me.lyml.summer.base.repository.BaseDao;
 import me.lyml.summer.base.service.BaseService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.List;
  * @date: 2016/9/5 9:47
  */
 @Component
+@Transactional(readOnly = true)
 public class ModuleService extends BaseService<Module, Long> {
     @Resource
     private ModuleDao dao;
@@ -42,6 +44,7 @@ public class ModuleService extends BaseService<Module, Long> {
         return mapperDao.findModuleByParentID(parentID);
     }
 
+    @Transactional(readOnly = false)
     public void saveModule(Module module) {
         if(module.getId() != null) {
             Module oldModule = get(module.getId());

@@ -21,6 +21,7 @@ import me.lyml.summer.account.repository.DepartmentDao;
 import me.lyml.summer.base.repository.BaseDao;
 import me.lyml.summer.base.service.BaseService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -30,6 +31,7 @@ import javax.annotation.Resource;
  * @date: 2016/9/5 9:47
  */
 @Component
+@Transactional(readOnly = true)
 public class DepartmentService extends BaseService<Department, Long> {
     @Resource
     private DepartmentDao dao;

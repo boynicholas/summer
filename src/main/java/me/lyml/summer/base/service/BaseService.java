@@ -24,6 +24,7 @@ import me.lyml.summer.base.repository.BaseDao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.*;
@@ -84,6 +85,7 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
      * @param t 实例对象
      * @return 实例对象
      */
+    @Transactional(readOnly = false)
     public T save(T t){
         if(t.getId() == null)
             t.preInsert();
@@ -98,6 +100,7 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
      * @param entities List实例对象
      * @return List实例对象
      */
+    @Transactional(readOnly = false)
     public List<T> save(List<T> entities){
         for (T t : entities) {
             if (t.getId() == null)
@@ -112,6 +115,7 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
      * 删除对象
      * @param t 实例对象
      */
+    @Transactional(readOnly = false)
     public void delete(T t){
         /*dao().delete(t);*/
         t.setDeleted(true);
@@ -122,6 +126,7 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
      * 根据ID删除对象
      * @param id ID
      */
+    @Transactional(readOnly = false)
     public void delete(ID id){
         /*dao().delete(id);*/
 
@@ -135,6 +140,7 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
      * 删除多个对象
      * @param entities List实例对象
      */
+    @Transactional(readOnly = false)
     public void delete(List<T> entities){
         /*dao().delete(entities);*/
         for (T t : entities) {
@@ -146,6 +152,7 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
     /**
      * 删除所有对象
      */
+    @Transactional(readOnly = false)
     public void deleteAll(){
         List<T> entities = dao().findAll();
         for(T t : entities) {

@@ -20,6 +20,8 @@ import me.lyml.summer.account.entity.Permission;
 import me.lyml.summer.account.repository.PermissionDao;
 import me.lyml.summer.base.repository.BaseDao;
 import me.lyml.summer.base.service.BaseService;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -28,6 +30,8 @@ import javax.annotation.Resource;
  * @author: cnlyml
  * @date: 2016/9/20 17:26
  */
+@Component
+@Transactional(readOnly = true)
 public class PermissionService extends BaseService<Permission, Long>{
     @Resource
     private PermissionDao dao;
